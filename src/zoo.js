@@ -1,8 +1,23 @@
+const { species } = require('./data');
 const data = require('./data');
 
-function getSpeciesByIds(ids) {
-  // seu código aqui 
-}
+const getSpeciesByIds = species.reduce((selectedIdAnimal, animal) => {
+  if (animal === '') { return []; }
+  if (animal.id === selectedIdAnimal.id) { return animal; }
+  return selectedIdAnimal;
+});
+/*     const expected = [{
+      id: '0938aa23-f153-4937-9f88-4858b24d6bce',
+      name: 'lions',
+      popularity: 4,
+      location: 'NE',
+      residents: [
+        { name: 'Zena', sex: 'female', age: 12 },
+        { name: 'Maxwell', sex: 'male', age: 15 },
+        { name: 'Faustino', sex: 'male', age: 7 },
+        { name: 'Dee', sex: 'female', age: 14 }
+      ]
+    }] */
 
 function getAnimalsOlderThan(animal, age) {
   // seu código aqui
@@ -24,7 +39,7 @@ function addEmployee(id, firstName, lastName, managers, responsibleFor) {
   // seu código aqui
 }
 
-function countAnimals(species) {
+function countAnimals(specie) {
   // seu código aqui
 }
 
