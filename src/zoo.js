@@ -1,17 +1,14 @@
-const { species } = require('./data');
+const { species, prices } = require('./data');
 const data = require('./data');
 
 const getSpeciesByIds = (...ids) =>
   species.filter((animals, identifier) => animals.id === ids[identifier]);
-
-console.log(getSpeciesByIds('0938aa23-f153-4937-9f88-4858b24d6bce'));
 
 function getAnimalsOlderThan(animal, minimumAge) {
   const findAnimal = species.find((specie) => specie.name === animal);
   const resident = findAnimal.residents;
   return resident.every((one) => one.age >= minimumAge);
 }
-console.log(getAnimalsOlderThan('penguins', 10));
 
 function getEmployeeByName(employeeName) {
   let getEmployee = data.employees.find((name) =>
@@ -19,7 +16,6 @@ function getEmployeeByName(employeeName) {
   if (employeeName === undefined) getEmployee = {};
   return getEmployee;
 }
-console.log(getEmployeeByName());
 
 function createEmployee({ id, firstName, lastName }, { managers, responsibleFor }) {
   // Consultei o repositório do Levi Manoel para resolver essa parte
@@ -39,7 +35,6 @@ function isManager(identifier) {
     employee.managers.includes(identifier));
   return findId;
 }
-console.log(isManager('c5b83cb3-a451-49e2-ac45-ff3f54fbe7e1'));
 
 function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []) {
   return data.employees.push({
@@ -53,12 +48,17 @@ function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []
 
 function countAnimals(specie) {
   const findSpecie = species.find((animal) => animal.name === specie);
-  const resident = findSpecie.residents.length;
-  return resident;
+  return findSpecie.residents.length;
 }
+console.log(countAnimals('elephants'));
 
 function calculateEntry(entrants) {
-  // seu código aqui
+  let total = 0;
+  if (entrants === undefined || Object.values(entrants).length === 0) return 0;
+  Object.keys(entrants).forEach((property) => {
+    total += entrants[property] * prices[property];
+  });
+  return total;
 }
 
 function getAnimalMap(options) {
