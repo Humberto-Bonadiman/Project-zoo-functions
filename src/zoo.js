@@ -22,7 +22,8 @@ function getEmployeeByName(employeeName) {
 console.log(getEmployeeByName());
 
 function createEmployee({ id, firstName, lastName }, { managers, responsibleFor }) {
-  // seu código aqui
+  // Consultei o repositório do Levi Manoel para resolver essa parte
+  // fonte: https://github.com/tryber/sd-014-b-project-zoo-functions/pull/101/commits/f66ac41d5352543856abe3896024a8f8c6976bb4;
   const newEmployee = {
     id,
     firstName,
@@ -33,9 +34,12 @@ function createEmployee({ id, firstName, lastName }, { managers, responsibleFor 
   return newEmployee;
 }
 
-function isManager(id) {
-  // seu código aqui
+function isManager(identifier) {
+  const findId = data.employees.some((employee) =>
+    employee.managers.includes(identifier));
+  return findId;
 }
+console.log(isManager('c5b83cb3-a451-49e2-ac45-ff3f54fbe7e1'));
 
 function addEmployee(id, firstName, lastName, managers, responsibleFor) {
   // seu código aqui
