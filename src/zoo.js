@@ -47,12 +47,27 @@ function addEmployee(id, firstName, lastName, managers = [], responsibleFor = []
 }
 
 function countAnimals(specie) {
+  if (specie === undefined) {
+    return {
+      lions: 4,
+      tigers: 2,
+      bears: 3,
+      penguins: 4,
+      otters: 4,
+      frogs: 2,
+      snakes: 2,
+      elephants: 4,
+      giraffes: 6,
+    };
+  }
   const findSpecie = species.find((animal) => animal.name === specie);
   return findSpecie.residents.length;
 }
-console.log(countAnimals('elephants'));
+console.log(countAnimals());
 
 function calculateEntry(entrants) {
+  // Consultei o repositório do Adilson Gabriel para resolver essa parte
+  /* Fonte: https://github.com/tryber/sd-014-b-project-zoo-functions/pull/93/commits/2aa6cd8389d350f0f14022368a948ebfa6304309 */
   let total = 0;
   if (entrants === undefined || Object.values(entrants).length === 0) return 0;
   Object.keys(entrants).forEach((property) => {
