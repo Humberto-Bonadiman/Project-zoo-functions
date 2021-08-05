@@ -13,8 +13,6 @@ function getAnimalsOlderThan(animal, minimumAge) {
 }
 console.log(getAnimalsOlderThan('penguins', 10));
 
-/* Esta função é responsável pela busca das pessoas colaboradoras através do primeiro ou do
-último nome delas */
 function getEmployeeByName(employeeName) {
   let getEmployee = data.employees.find((name) =>
     (name.firstName === employeeName || name.lastName === employeeName));
@@ -23,8 +21,16 @@ function getEmployeeByName(employeeName) {
 }
 console.log(getEmployeeByName());
 
-function createEmployee(personalInfo, associatedWith) {
+function createEmployee({ id, firstName, lastName }, { managers, responsibleFor }) {
   // seu código aqui
+  const newEmployee = {
+    id,
+    firstName,
+    lastName,
+    managers,
+    responsibleFor,
+  };
+  return newEmployee;
 }
 
 function isManager(id) {
