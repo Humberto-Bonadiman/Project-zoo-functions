@@ -10,7 +10,6 @@ function getAnimalsOlderThan(animal, minimumAge) {
   const resident = findAnimal.residents;
   return resident.every((one) => one.age >= minimumAge);
 }
-console.log(getAnimalsOlderThan('elephants', 3));
 
 function getEmployeeByName(employeeName) {
   let getEmployee = data.employees.find((name) =>
@@ -107,8 +106,18 @@ function getSchedule(dayName) {
   return createInfoOfDay(dayName, data.hours[dayName]);
 }
 
-function getOldestFromFirstSpecies(id) {
-  // seu código aqui
+function getOldestFromFirstSpecies(ids) {
+  const getEmployee = data.employees.find((employee) => employee.id === ids);
+  const getFirstAnimal = getEmployee.responsibleFor[0];
+  const getAnimalInformation = data.species.find((animal) => animal.id === getFirstAnimal);
+  const getAnimalResidents = getAnimalInformation.residents;
+  let getOldestAnimal;
+  getAnimalResidents.forEach((animal) => {
+    if (!getOldestAnimal || animal.age > getOldestAnimal.age) {
+      getOldestAnimal = animal;
+    }
+  });
+  return Object.values(getOldestAnimal);
 }
 
 function increasePrices(percentage) {
