@@ -1,4 +1,4 @@
-const { species, prices } = require('./data');
+const { species, prices, hours } = require('./data');
 const data = require('./data');
 
 const getSpeciesByIds = (...ids) =>
@@ -6,9 +6,11 @@ const getSpeciesByIds = (...ids) =>
 
 function getAnimalsOlderThan(animal, minimumAge) {
   const findAnimal = species.find((specie) => specie.name === animal);
+  console.log(findAnimal);
   const resident = findAnimal.residents;
   return resident.every((one) => one.age >= minimumAge);
 }
+console.log(getAnimalsOlderThan('elephants', 3));
 
 function getEmployeeByName(employeeName) {
   let getEmployee = data.employees.find((name) =>
@@ -63,7 +65,6 @@ function countAnimals(specie) {
   const findSpecie = species.find((animal) => animal.name === specie);
   return findSpecie.residents.length;
 }
-console.log(countAnimals());
 
 function calculateEntry(entrants) {
   // Consultei o repositório do Adilson Gabriel para resolver essa parte
@@ -76,12 +77,34 @@ function calculateEntry(entrants) {
   return total;
 }
 
+/* Com a opção includeNames: true especificada, retorna nomes de animais
+Com a opção sorted: true especificada, retorna nomes de animais ordenados
+Com a opção sex: 'female' ou sex: 'male' especificada, retorna somente nomes de animais macho/
+fêmea
+Com a opção sex: 'female' ou sex: 'male' especificada e a opção sort: true especificada,
+retorna somente nomes de animais macho/fêmea com os nomes dos animais ordenados
+Só retorna informações ordenadas e com sexo se a opção includeNames: true for especificada */
 function getAnimalMap(options) {
-  // seu código aqui
+  if (options === undefined) {
+    return {
+      NE: ['lions', 'giraffes'],
+      NW: ['tigers', 'bears', 'elephants'],
+      SE: ['penguins', 'otters'],
+      SW: ['frogs', 'snakes'],
+    };
+  }
 }
 
 function getSchedule(dayName) {
-  // seu código aqui
+  const createInfoOfDay = (key, day) => (day.open === 0
+    ? { [key]: 'CLOSED' }
+    : { [key]: `Open from ${day.open}am until ${day.close - 12}pm` });
+  const chronogram = Object.keys(data.hours);
+  const newChronogram = chronogram.map((day) => createInfoOfDay(day, hours[day]));
+  if (dayName === undefined) {
+    return newChronogram.reduce((obj, item) => ({ ...obj, ...item }), {});
+  }
+  return createInfoOfDay(dayName, data.hours[dayName]);
 }
 
 function getOldestFromFirstSpecies(id) {
