@@ -128,10 +128,7 @@ function increasePrices(percentage) {
 }
 
 function getEmployeeCoverage(idOrName) {
-  const createInfoOfEmployee = (first, last, animals) =>
-    ({ [`${first} ${last}`]: [`${animals}`] });
-  if (idOrName !== employees.firstName || idOrName !== employees.lastName
-    || idOrName !== employees.id) {
+  if (idOrName === undefined) {
     const getAllEmployees = employees.reduce((acc, curr) => {
       const findAnimal = curr.responsibleFor.map((animalId) =>
         species.find(({ id }) => id === animalId).name);
@@ -140,14 +137,13 @@ function getEmployeeCoverage(idOrName) {
     }, {});
     return getAllEmployees;
   }
-  const get = data.employees.find((name) =>
-    (name.firstName === idOrName || name.lastName === idOrName || name.id === idOrName));
+  const get = data.employees.find(({ id, firstName, lastName }) =>
+    (id === idOrName || lastName === idOrName || firstName === idOrName));
   const getAnimals = get.responsibleFor;
   const getAnimal = getAnimals.map((animal) =>
     species.find(({ id }) => id === animal).name);
-  return createInfoOfEmployee(get.firstName, get.lastName, getAnimal);
+  return ({ [`${get.firstName} ${get.lastName}`]: getAnimal });
 }
-console.log(getEmployeeCoverage('Bernard'));
 
 module.exports = {
   calculateEntry,
