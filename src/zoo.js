@@ -76,22 +76,24 @@ function calculateEntry(entrants) {
   return total;
 }
 
-/* Com a opção includeNames: true especificada, retorna nomes de animais
-Com a opção sorted: true especificada, retorna nomes de animais ordenados
-Com a opção sex: 'female' ou sex: 'male' especificada, retorna somente nomes de animais macho/
-fêmea
-Com a opção sex: 'female' ou sex: 'male' especificada e a opção sort: true especificada,
-retorna somente nomes de animais macho/fêmea com os nomes dos animais ordenados
-Só retorna informações ordenadas e com sexo se a opção includeNames: true for especificada */
-function getAnimalMap(options) {
-  if (options === undefined) {
-    return {
-      NE: ['lions', 'giraffes'],
-      NW: ['tigers', 'bears', 'elephants'],
-      SE: ['penguins', 'otters'],
-      SW: ['frogs', 'snakes'],
-    };
-  }
+// Consultei o repositório do Vinicius Santana para resolver essa parte
+/* Fonte: https://github.com/tryber/sd-014-b-project-zoo-functions/pull/32/commits/2486beebff89a8af50583d0b562b59997b11f4f2 */
+function getAnimalMap(options = {}) {
+  const { includeNames = false } = options;
+  const getPlaces = { NE: [], NW: [], SE: [], SW: [] };
+  const filterPlaces = (place) => data.species.filter((value) => (value.location === place));
+  const lookOptionsSort = (alternatives) => (options.sorted ? alternatives.sort() : alternatives);
+  const lookGender = (gender) => (options.sex ? (gender.sex === options.sex) : (true));
+  const addNames = (names) => (names.name);
+  const addNamesAndMore = (names) => (
+    { [names.name]: lookOptionsSort(names.residents.filter(lookGender).map(addNames)) }
+  );
+  const putNamesOptions = includeNames ? addNamesAndMore : addNames;
+  getPlaces.NE = filterPlaces('NE').map(putNamesOptions);
+  getPlaces.NW = filterPlaces('NW').map(putNamesOptions);
+  getPlaces.SE = filterPlaces('SE').map(putNamesOptions);
+  getPlaces.SW = filterPlaces('SW').map(putNamesOptions);
+  return getPlaces;
 }
 
 function getSchedule(dayName) {
@@ -120,6 +122,7 @@ function getOldestFromFirstSpecies(ids) {
   return Object.values(getOldestAnimal);
 }
 
+/* Fonte: https://qastack.com.br/programming/11832914/round-to-at-most-2-decimal-places-only-if-necessary */
 function increasePrices(percentage) {
   data.prices.Adult = Math.round(data.prices.Adult * (1 + (percentage / 100)) * 100) / 100;
   data.prices.Senior = Math.round(data.prices.Senior * (1 + (percentage / 100)) * 100) / 100;
@@ -127,6 +130,8 @@ function increasePrices(percentage) {
   return prices;
 }
 
+// Consultei o repositório do Michael Caxias para resolver essa parte
+/* Fonte: https://github.com/tryber/sd-014-b-project-zoo-functions/pull/65/commits/604b2f298dcc78e4416cbf916e9a9097af9f6b68 */
 function getEmployeeCoverage(idOrName) {
   if (idOrName === undefined) {
     const getAllEmployees = employees.reduce((acc, curr) => {
